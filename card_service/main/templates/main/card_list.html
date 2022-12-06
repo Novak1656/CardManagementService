@@ -1,0 +1,87 @@
+{% extends 'base.html' %}
+
+{% block title %} Список карт {% endblock %}
+
+{% block content %}
+<div class="container text-white border-danger">
+    <div class="container">
+        <div class="border-bottom border-danger">
+            <div class="row">
+                <div class="col-3">
+                    <h1 class="display-6 mb-3">
+                        Список карт |
+                    </h1>
+                </div>
+                <div class="col-8">
+                    <form role="search" method="get" action="" class="mt-2 me-3">
+                        <input class="form-control" type="search" name="search_word" placeholder="Поиск..." aria-label="Search">
+                    </form>
+                </div>
+            </div>
+        </div>
+        <br>
+        <div class="row">
+            {% if cards %}
+            <table class="table-dark table-bordered border-danger">
+                <thead>
+                <tr class="text-center">
+                    <th scope="col">card_generate_modal_btn</th>
+                    <th scope="col">Серия</th>
+                    <th scope="col">Номер</th>
+                    <th scope="col">Дата выпуска</th>
+                    <th scope="col">Дата окончания активности</th>
+                    <th scope="col">Дата использования</th>
+                    <th scope="col">Сумма</th>
+                    <th scope="col">Статус</th>
+                    <th scope="col"></th>
+                </tr>
+                </thead>
+                <tbody>
+                {% for card in cards %}
+                <tr>
+                    <th scope="row"><h3 class="fs-5 text-center">{{ forloop.counter }}.</h3></th>
+                    <td><h3 class="fs-5 ms-3">{{ card.series }}</h3></td>
+                    <td><h3 class="fs-5 ms-3">{{ card.number }}</h3></td>
+                    <td><h3 class="fs-5 ms-3">{{ card.release_date }}</h3></td>
+                    <td><h3 class="fs-5 ms-3">{{ card.activity_end_date }}</h3></td>
+                    <td><h3 class="fs-5 ms-3">{{ card.date_of_use }}</h3></td>
+                    <td><h3 class="fs-5 ms-3">{{ card.amount }}</h3></td>
+                    <td><h3 class="fs-5 ms-3">{{ card.status }}</h3></td>
+                    <td class="text-center">
+                        <button class="btn btn-outline-danger w-100 text-center border-bottom-0 border-top-0 border-start-0 border-end-0" data-bs-toggle="modal" data-bs-target="#delete_card{{ card.pk }}">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" fill="currentColor" class="bi bi-x-lg" viewBox="0 0 16 16">
+                                <path d="M2.146 2.854a.5.5 0 1 1 .708-.708L8 7.293l5.146-5.147a.5.5 0 0 1 .708.708L8.707 8l5.147 5.146a.5.5 0 0 1-.708.708L8 8.707l-5.146 5.147a.5.5 0 0 1-.708-.708L7.293 8 2.146 2.854Z"/>
+                            </svg>
+                        </button>
+                    </td>
+                    <!-- Card Delete -->
+                    <div class="modal modal-alert" tabindex="-1" role="dialog" id="delete_card{{ card.pk }}">
+                        <div class="modal-dialog modal-dialog-centered" role="document">
+                            <div class="modal-content rounded-4 shadow bg-info text-dark">
+                                <div class="modal-body p-4 text-center">
+                                    <h5 class="mb-0">Вы действительно хотите удалить {{ card }} из системы?</h5>
+                                </div>
+                                <div class="modal-footer flex-nowrap p-0 border-top border-dark text-dark">
+                                    <a type="button" class="btn btn-lg btn-link fs-6 text-decoration-none col-6 m-0 rounded-0" href="{% url 'card_delete' %}?card_pk={{ card.pk }}">Да</a>
+                                    <button type="button" class="btn btn-lg btn-link fs-6 text-decoration-none col-6 m-0 rounded-0 border-left border-left-dark" data-bs-dismiss="modal">Нет</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Card Delete -->
+                </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+            {% else %}
+            <div class="text-center">
+                <h1 class="display-6 mb-3">
+                    Список карт пуст.
+                </h1>
+                <a href="{% url 'card_generate' %}" class="btn btn-outline-success btn-lg">Сгенерировать карты</a>
+            </div>
+            {% endif %}
+        </div>
+    </div>
+</div>
+{% endblock %}

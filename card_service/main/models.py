@@ -10,12 +10,10 @@ class Card(models.Model):
 
     series = models.PositiveIntegerField(
         verbose_name='Серия',
-        max_length=16,
-        help_text='Введите серию карты'
+        help_text='Введите серию карты',
     )
     number = models.PositiveIntegerField(
         verbose_name='Номер',
-        max_length=16,
         help_text='Введите номер карты'
     )
     release_date = models.DateTimeField(
